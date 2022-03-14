@@ -6,3 +6,7 @@ target_link_libraries(csc
     PRIVATE
     CJSON::CJSON
 )
+target_include_directories(csc
+    PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}
+)

@@ -26,3 +26,5 @@ typedef struct {
 } KKTSystem;
 
 KKTSystem kkt_ReadFromFile(const char* filename);
+
+void kkt_FreeKKTSystem(KKTSystem* kkt);

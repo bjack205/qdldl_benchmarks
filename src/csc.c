@@ -19,6 +19,12 @@ void csc_FreeSparseMatrixCSC(SparseMatrixCSC *A) {
   }
 }
 
+void kkt_FreeKKTSystem(KKTSystem* kkt) {
+  csc_FreeSparseMatrixCSC(&kkt->A);
+  free(kkt->b);
+  free(kkt->x);
+}
+
 /**
  * @brief Read the contents of a file into a heap-allocated `char` array.
  *

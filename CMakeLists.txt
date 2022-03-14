@@ -17,3 +17,9 @@ add_subdirectory(deps)
 # BUILD
 ##############################
 add_subdirectory(src)
+
+##############################
+# TESTING 
+##############################
+enable_testing()
+add_subdirectory(test)
