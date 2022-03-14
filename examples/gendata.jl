@@ -9,26 +9,33 @@ using ArgParse
 include(joinpath(@__DIR__, "..", "src", "gen_controllable.jl"))
 include(joinpath(@__DIR__, "..", "src", "lqrdata.jl"))
 
-function writetojson(data::LQRData{Nx,Nu}; indent=2, reg=1e-8, outputdir=joinpath(@__DIR__)) where {Nx,Nu}
+function writetojson(data::LQRData{Nx,Nu}; indent=nothing, reg=1e-8, outputdir=joinpath(@__DIR__)) where {Nx,Nu}
     N = length(data.Q)
     Np = N*Nx + (N-1)*Nu
     Nd = N*Nx
     basename = "$Nx-$Nu-$(N)_"
     for form in ("banded", "kkt")
         A,b = build_Ab(data, form, reg=reg)
+        x = A\b
         json_data = Dict(
             "nx"=>Nx, 
             "nu"=>Nu, 
+            "nnz"=>nnz(A),
             "nprimals"=>Np,
             "nduals"=>Nd,
-            "colptr"=>A.colptr, 
-            "rowval"=>A.rowval,
+            "colptr"=>A.colptr .- 1,  # convert to 0-based indexing
+            "rowval"=>A.rowval .- 1,  # convert to 0-based indexing
             "nzval"=>A.nzval,
-            "b"=>b
+            "b"=>b,
+            "x"=>x,
         )
         filename = basename * form * ".json"
         open(joinpath(outputdir, filename), "w") do file
-            JSON.print(file, json_data, indent)
+            if isnothing(indent)
+                JSON.print(file, json_data)
+            else
+                JSON.print(file, json_data, indent)
+            end
         end
     end
 end
