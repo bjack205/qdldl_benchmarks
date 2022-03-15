@@ -84,7 +84,7 @@ void Solve() {
   err = SumOfSquaredError(x, kkt.x, n);
   TEST(err < 1e-8);
 
-  // free(x);
+  free(x);
   solvers_FreeQDLDLWorkspace(&ws);
   kkt_FreeKKTSystem(&kkt);
 }
