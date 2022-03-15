@@ -2,13 +2,13 @@
 
 // Forward-declare PARDISO functions
 void pardisoinit(void* pt, int* mtype, int* solver, int* iparm, double* dparm, int* error);
-void pardiso     (void   *, int    *,   int *, int *,    int *, int *, 
-                  double *, int    *,    int *, int *,   int *, int *,
-                     int *, double *, double *, int *, double *);
-void pardiso_chkmatrix  (int *, int *, double *, int *, int *, int *);
-void pardiso_chkvec     (int *, int *, double *, int *);
-void pardiso_printstats (int *, int *, double *, int *, int *, int *,
-                           double *, int *);
+void pardiso     (void* pt, int* maxfct, int* mnum, int* mtype,  int* phase, int* n, 
+                  double* a, int* ia, int* ja, int* perm, int* nrhs, int* iparm,
+                  int* msglvl, double* b, double* x, int* error, double* dparm);
+void pardiso_chkmatrix  (int* mtype, int* n, double* a, int* ia, int* ja, int* error);
+void pardiso_chkvec     (int* n, int* nrhs, double* b, int* error);
+void pardiso_printstats (int* mtype, int* n, double* a, int* ia, int* ja, int* nrhs,
+                           double* b, int* error);
 
 
 enum MTYPE {
@@ -42,3 +42,10 @@ typedef struct {
 } PardisoWorkspace;
 
 PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt);
+
+/**
+ * @brief Get the value of OMP_NUM_THREADS
+ * 
+ * @return The value of OMP_NUM_THREADS, or 1 if not defined
+ */
+int solvers_GetOmpThreads();

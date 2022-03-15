@@ -1,5 +1,8 @@
 #include "pardiso_solver.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+
 PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt) {
   (void) kkt;
 
@@ -12,4 +15,15 @@ PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt) {
     .dparm = dparm,
   };
   return ws;
+}
+
+int solvers_GetOmpThreads() {
+  int num_procs;
+  char* var = getenv("OMP_NUM_THREADS");
+  if (var != NULL) {
+    sscanf(var, "%d", &num_procs);
+  } else {
+    num_procs = 1;
+  }
+  return num_procs;
 }
