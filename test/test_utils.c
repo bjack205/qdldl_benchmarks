@@ -18,6 +18,5 @@ double SumOfSquaredError(const double* x, const double* y, int len) {
 }
 
 KKTSystem GetTestSystem() {
-  printf("Data file: %s\n", kTestFile);
   return kkt_ReadFromFile(kTestFile);
 }

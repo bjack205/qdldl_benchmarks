@@ -6,7 +6,7 @@
 
 void CheckTestSystem() { 
   KKTSystem kkt = GetTestSystem();
-  const int nnz = 659;
+  const int nnz = 409;
   const int n = 159;
   TEST(kkt.n == n);
   TEST(kkt.nnz == nnz);

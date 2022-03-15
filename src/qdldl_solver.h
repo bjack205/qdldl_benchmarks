@@ -5,9 +5,9 @@
 
 typedef struct {
     QDLDL_int n;
-    QDLDL_int* Ap;       // n+1
-    QDLDL_int* Ai;       // nnzA
-    QDLDL_float* Ax;     // nnzA
+    const QDLDL_int* const Ap;       // n+1
+    const QDLDL_int* const Ai;       // nnzA
+    const QDLDL_float* const Ax;     // nnzA
     QDLDL_int* work;     // n
     QDLDL_int* Lnz;      // n
     QDLDL_int* etree;    // n

@@ -17,15 +17,16 @@ function writetojson(data::LQRData{Nx,Nu}; indent=nothing, reg=1e-8, outputdir=j
     for form in ("banded", "kkt")
         A,b = build_Ab(data, form, reg=reg)
         x = A\b
+        U = triu(A)
         json_data = Dict(
             "nx"=>Nx, 
             "nu"=>Nu, 
-            "nnz"=>nnz(A),
+            "nnz"=>nnz(U),
             "nprimals"=>Np,
             "nduals"=>Nd,
-            "colptr"=>A.colptr .- 1,  # convert to 0-based indexing
-            "rowval"=>A.rowval .- 1,  # convert to 0-based indexing
-            "nzval"=>A.nzval,
+            "colptr"=>U.colptr .- 1,  # convert to 0-based indexing
+            "rowval"=>U.rowval .- 1,  # convert to 0-based indexing
+            "nzval"=>U.nzval,
             "b"=>b,
             "x"=>x,
         )

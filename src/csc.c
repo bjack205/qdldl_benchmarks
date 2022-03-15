@@ -1,5 +1,6 @@
 #include "csc.h"
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -104,7 +105,7 @@ int ReadJSONVectord(cJSON* json, const char* name, double* buf, int len) {
   return -1;
 }
 
-int ReadJSONVectori(cJSON* json, const char* name, int* buf, int len) {
+int ReadJSONVectori(cJSON* json, const char* name, csc_int* buf, int len) {
   cJSON* array = cJSON_GetObjectItemCaseSensitive(json, name);
   cJSON* number;
   int i = 0;
@@ -160,17 +161,17 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
 
   // Read Integer Data
   cJSON* item;
-  int nstates = 0;
-  item = cJSON_GetObjectItemCaseSensitive(json, "nx");
-  if (cJSON_IsNumber(item)) {
-    nstates = item->valueint;
-  }
+  // int nstates = 0;
+  // item = cJSON_GetObjectItemCaseSensitive(json, "nx");
+  // if (cJSON_IsNumber(item)) {
+  //   nstates = item->valueint;
+  // }
 
-  int ninputs = 0;
-  item = cJSON_GetObjectItemCaseSensitive(json, "nu");
-  if (cJSON_IsNumber(item)) {
-    ninputs = item->valueint;
-  }
+  // int ninputs = 0;
+  // item = cJSON_GetObjectItemCaseSensitive(json, "nu");
+  // if (cJSON_IsNumber(item)) {
+  //   ninputs = item->valueint;
+  // }
 
   int nprimals = 0;
   item = cJSON_GetObjectItemCaseSensitive(json, "nprimals");
@@ -189,17 +190,17 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
   if (cJSON_IsNumber(item)) {
     nnz = item->valueint;
   }
-  printf("Read the following data:\n");
-  printf("  nx = %d\n", nstates);
-  printf("  nu = %d\n", ninputs);
-  printf("  nprimals = %d\n", nprimals);
-  printf("  nduals = %d\n", nduals);
-  printf("  nnz = %d\n", nnz);
+  // printf("Read the following data:\n");
+  // printf("  nx = %d\n", nstates);
+  // printf("  nu = %d\n", ninputs);
+  // printf("  nprimals = %d\n", nprimals);
+  // printf("  nduals = %d\n", nduals);
+  // printf("  nnz = %d\n", nnz);
 
   // Read arrays
   int n = nprimals + nduals;
   int status = 0;
-  int* colptr = (int*) malloc((n + 1) * sizeof(int));
+  csc_int* colptr = (csc_int*) malloc((n + 1) * sizeof(csc_int));
   status = ReadJSONVectori(json, "colptr", colptr, n + 1);
   if (status != 0) {
     fprintf(stderr, "ERROR: Failed to read the colptr data.");
@@ -214,7 +215,7 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
     return kkt;
   }
 
-  int* rowval = (int*) malloc(nnz * sizeof(int));
+  csc_int* rowval = (csc_int*) malloc(nnz * sizeof(csc_int));
   status = ReadJSONVectori(json, "rowval", rowval, nnz);
   if (status != 0) {
     fprintf(stderr, "ERROR: Failed to read the rowval data.");

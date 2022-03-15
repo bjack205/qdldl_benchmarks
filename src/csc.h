@@ -1,9 +1,14 @@
 #pragma once
 
+#include <inttypes.h>
+#include <stdint.h>
+
+typedef long long csc_int;
+
 typedef struct {
-    int n;
-    int* colptr;
-    int* rowval;
+    csc_int n;
+    csc_int* colptr;
+    csc_int* rowval;
     double* nzval;
 } SparseMatrixCSC;
 
@@ -18,8 +23,8 @@ int csc_Nonzeros(const SparseMatrixCSC* A);
 void csc_FreeSparseMatrixCSC(SparseMatrixCSC* A);
 
 typedef struct {
-    int n;
-    int nnz;
+    csc_int n;
+    csc_int nnz;
     SparseMatrixCSC A;
     double* b;
     double* x;
