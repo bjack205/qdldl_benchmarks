@@ -22,6 +22,16 @@ int csc_Nonzeros(const SparseMatrixCSC* A);
 
 void csc_FreeSparseMatrixCSC(SparseMatrixCSC* A);
 
+/**
+ * @brief Convert a CSC matrix to CSR
+ * 
+ * @param A Original matrix
+ * @param ia (n+1,) vector of row pointers
+ * @param ja (nnz,) vector of column values
+ * @param a  (nnz,) vector of nonzero values
+ */
+void csc_ConvertToCSR(const SparseMatrixCSC* A, int* ia, int* ja, double* a);
+
 typedef struct {
     csc_int nprimals;
     csc_int nduals;

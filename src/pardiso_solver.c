@@ -11,22 +11,28 @@ PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt) {
   const int n = A->n;
   const int nnz = csc_Nonzeros(A);
 
+  // Convert data in A to upper triangular CSR 
   double* a = (double*) malloc(nnz * sizeof(double));
   int* ia = (int*) malloc((n + 1) * sizeof(int));
   int* ja = (int*) malloc(nnz * sizeof(int));
+
+  csc_ConvertToCSR(A, ia, ja, a);
+
+  // Convert to 1-based indexing
   for (int i = 0; i < n + 1; ++i) {
-    ia[i] = A->colptr[i] + 1;  // Convert to 1-based indexing
+    ia[i] += 1;
   }
   for (int i = 0; i < nnz; ++i) {
-    ja[i] = A->rowval[i] + 1;  // Convert to 1-based indexing
-    a[i] = A->nzval[i];
+    ja[i] += 1;
   }
 
+  // Create permuation vector
   int* perm = (int*) malloc(n * sizeof(int));
   for (int i = 0; i < n; ++i) {
     perm[i] = i + 1;
   }
 
+  // Allocate x and b arrays
   const int nrhs = 1;
   double* b = (double*) malloc(nrhs * n * sizeof(double));
   double* x = (double*) malloc(nrhs * n * sizeof(double));
