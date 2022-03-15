@@ -59,7 +59,7 @@ typedef struct {
    double* x;          // (n, nrhs)
 } PardisoWorkspace;
 
-PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt);
+PardisoWorkspace solvers_InitializePardisoWorkspace(const KKTSystem* kkt);
 
 void solvers_FreePardisoWorkspace(PardisoWorkspace* ws);
 
@@ -69,3 +69,5 @@ void solvers_FreePardisoWorkspace(PardisoWorkspace* ws);
  * @return The value of OMP_NUM_THREADS, or 1 if not defined
  */
 int solvers_GetOmpThreads();
+
+double solvers_SolvePardiso(const KKTSystem* kkt);

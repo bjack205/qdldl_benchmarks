@@ -35,4 +35,4 @@ void solvers_FreeQDLDLWorkspace(QDLDLWorkspace* ws);
  */
 void solvers_AppendQDLDLWorkspace(QDLDLWorkspace* ws);
 
-void solvers_SolveQDLDL(const KKTSystem* kkt);
+double solvers_SolveQDLDL(const KKTSystem* kkt);

@@ -40,6 +40,14 @@ target_link_libraries(solve_qdldl
     solvers
 )
 
+add_executable(solve_pardiso
+    solve_pardiso.c
+)
+target_link_libraries(solve_pardiso
+    PRIVATE
+    solvers
+)
+
 add_executable(pardiso_example
     pardiso_sym.c
 )

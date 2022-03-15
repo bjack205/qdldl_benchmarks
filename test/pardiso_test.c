@@ -67,6 +67,10 @@ void PardisoSolve() {
   pardisoinit(ws.pt, &mtype, &solver, ws.iparm, ws.dparm, &error);
   TEST(error == PARDISO_NO_ERROR);
 
+  // Parameters
+  ws.iparm[2] = solvers_GetOmpThreads();  // number of threads
+
+
   // Analysis (symbolic factorization)
   int phase = PARDISO_ANALYSIS;
   pardiso(ws.pt, &maxfct, &mnum, &mtype, &phase, &n, ws.a, ws.ia, ws.ja,

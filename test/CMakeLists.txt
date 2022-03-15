@@ -40,5 +40,5 @@ add_project_test(csc)
 add_project_test(qdldl)
 add_project_test(pardiso)
 
-set_tests_properties(csc_test PROPERTIES LABELS "TESTLABEL;MemCheck")
-set_tests_properties(qdldl_test PROPERTIES LABELS "TESTLABEL;MemCheck")
+set_tests_properties(csc_test PROPERTIES LABELS "MemCheck")
+set_tests_properties(qdldl_test PROPERTIES LABELS "MemCheck")

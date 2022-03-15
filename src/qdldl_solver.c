@@ -1,7 +1,6 @@
 #include "qdldl_solver.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "csc.h"
 #include "qdldl_types.h"
@@ -86,7 +85,7 @@ void solvers_AppendQDLDLWorkspace(QDLDLWorkspace* ws) {
   ws->bwork = (QDLDL_bool*) malloc(n * sizeof(QDLDL_bool));
 }
 
-void solvers_SolveQDLDL(const KKTSystem* kkt) {
+double solvers_SolveQDLDL(const KKTSystem* kkt) {
   QDLDLWorkspace ws = solvers_InitializeQDLDLWorkspace(kkt);
 
   // Compute the elimination tree
@@ -108,8 +107,8 @@ void solvers_SolveQDLDL(const KKTSystem* kkt) {
   QDLDL_solve(n, ws.Lp, ws.Li, ws.Lx, ws.Dinv, x);
 
   double err = SumOfSquaredError(x, kkt->x, n);
-  printf("err = %g\n", err);
 
   free(x);
   solvers_FreeQDLDLWorkspace(&ws);
+  return err;
 }
