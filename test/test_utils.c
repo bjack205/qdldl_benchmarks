@@ -1,6 +1,12 @@
 #include "test_utils.h"
+#include "csc.h"
 
+#include <stdio.h>
 #include <math.h>
+
+#ifdef JSONDATA
+const char* kTestFile = JSONDATA;
+#endif
 
 double SumOfSquaredError(const double* x, const double* y, int len) {
   double err = 0;
@@ -9,4 +15,9 @@ double SumOfSquaredError(const double* x, const double* y, int len) {
     err += diff * diff;
   }
   return sqrt(err);
+}
+
+KKTSystem GetTestSystem() {
+  printf("Data file: %s\n", kTestFile);
+  return kkt_ReadFromFile(kTestFile);
 }

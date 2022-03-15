@@ -5,7 +5,7 @@
 
 #include "cjson/cJSON.h"
 
-int csc_Nonzeros(const SparseMatrixCSC *A) { return A->colptr[A->n + 1]; }
+int csc_Nonzeros(const SparseMatrixCSC *A) { return A->colptr[A->n]; }
 
 void csc_FreeSparseMatrixCSC(SparseMatrixCSC *A) {
   if (A->colptr) {
@@ -187,8 +187,14 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
   int nnz = 0;
   item = cJSON_GetObjectItemCaseSensitive(json, "nnz");
   if (cJSON_IsNumber(item)) {
-    nduals = item->valueint;
+    nnz = item->valueint;
   }
+  printf("Read the following data:\n");
+  printf("  nx = %d\n", nstates);
+  printf("  nu = %d\n", ninputs);
+  printf("  nprimals = %d\n", nprimals);
+  printf("  nduals = %d\n", nduals);
+  printf("  nnz = %d\n", nnz);
 
   // Read arrays
   int n = nprimals + nduals;

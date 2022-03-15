@@ -81,4 +81,14 @@ function main()
     end
 end
 
+let Nx = 2, Nu = 1, N=32
+    Np = N*Nx + (N-1)*Nu
+    Nd = N*Nx
+    @show Np, Nd
+end
+data = rand(LQRData{2,1}, 32)
+A,b = build_Ab(data, "banded", reg=1e-8)
+length(b)
+nnz(A)
+
 main()

@@ -20,7 +20,7 @@ function (add_project_test name)
   add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
   target_compile_definitions(${TEST_NAME}
     PRIVATE
-    JSONDATA="$CMAKE_CURRENT_LIST_DIR/2-1-32_banded.json"
+    JSONDATA="${CMAKE_CURRENT_LIST_DIR}/2-1-32_banded.json"
   )
 endfunction()
 
