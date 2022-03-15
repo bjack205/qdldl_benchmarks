@@ -1,4 +1,6 @@
-# function add_ulqr_test(name)
+# set(CMAKE_MEMORYCHECK_COMMAND_OPTIONS "--error-exitcode=1")
+include(CTest)
+# function add_project_test(name)
 #
 # Adds a new executable test called <name>_test.
 # Assumes thes source code is in a file called <name>_test.
