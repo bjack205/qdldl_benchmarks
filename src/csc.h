@@ -23,8 +23,8 @@ int csc_Nonzeros(const SparseMatrixCSC* A);
 void csc_FreeSparseMatrixCSC(SparseMatrixCSC* A);
 
 typedef struct {
-    csc_int n;
-    csc_int nnz;
+    csc_int nprimals;
+    csc_int nduals;
     SparseMatrixCSC A;
     double* b;
     double* x;

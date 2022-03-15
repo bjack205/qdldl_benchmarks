@@ -133,8 +133,8 @@ int ReadJSONVectori(cJSON* json, const char* name, csc_int* buf, int len) {
 KKTSystem kkt_ReadFromFile(const char *filename) {
   SparseMatrixCSC Anull = {.n = 0, .colptr = NULL, .rowval = NULL, .nzval = NULL};
   KKTSystem kkt = {
-    .n = 0,
-    .nnz = 0,
+    .nprimals = 0,
+    .nduals = 0,
     .A = Anull,
     .b = NULL,
     .x = NULL,
@@ -268,8 +268,8 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
     .nzval = nzval,
   };
 
-  kkt.n = n;
-  kkt.nnz = nnz;
+  kkt.nprimals = nprimals;
+  kkt.nduals = nduals;
   kkt.A = A;
   kkt.b = b;
   kkt.x = x;

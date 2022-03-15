@@ -7,7 +7,7 @@
 
 QDLDLWorkspace solvers_InitializeQDLDLWorkspace(const KKTSystem* kkt) {
   const SparseMatrixCSC* A = &kkt->A;
-  int n = kkt->n;
+  const int n = A->n; 
   // int nnzA = csc_Nonzeros(A);
 
   // Assign pointers to data in A 
