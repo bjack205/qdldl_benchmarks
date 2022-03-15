@@ -11,10 +11,9 @@ function (add_project_test name)
     test_utils.c
   )
   target_link_libraries(${TEST_NAME}
-    PUBLIC
-    csc
     PRIVATE 
     simpletest 
+    solvers
     m
   )
   add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
@@ -36,3 +35,4 @@ target_include_directories(simpletest
 
 # Add tests
 add_project_test(csc)
+add_project_test(qdldl)

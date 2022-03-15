@@ -10,3 +10,17 @@ target_include_directories(csc
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
 )
+
+add_library(solvers
+    qdldl_solver.h
+    qdldl_solver.c
+)
+target_link_libraries(solvers
+    PUBLIC
+    QDLDL::QDLDL
+    csc
+)
+target_include_directories(solvers
+    PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}
+)

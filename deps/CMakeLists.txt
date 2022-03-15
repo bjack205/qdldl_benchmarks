@@ -1,7 +1,6 @@
 
 include(FetchContent)
 
-
 # Add the CJSON library
 list(APPEND CMAKE_MESSAGE_CONTEXT "cjson")
 FetchContent_Declare(cjson_lib
@@ -26,5 +25,5 @@ FetchContent_Declare(qdldl_lib
     GIT_TAG 7d16b70a10a152682204d745d814b6eb63dc5cd2  # version 0.1.5
 )
 FetchContent_MakeAvailable(qdldl_lib)
-add_library(QDLDL::QDLDL ALIAS qdldlobject)
+add_library(QDLDL::QDLDL ALIAS qdldlstatic)
 list(POP_BACK CMAKE_MESSAGE_CONTEXT)

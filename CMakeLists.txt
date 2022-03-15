@@ -16,7 +16,12 @@ add_subdirectory(deps)
 ##############################
 # BUILD
 ##############################
+# Compile options
+add_compile_options(-Wall -Wextra -pedantic -Werror)
+
+# Build
 add_subdirectory(src)
+
 
 ##############################
 # TESTING 

@@ -11,6 +11,7 @@ void CheckTestSystem() {
   TEST(kkt.n == n);
   TEST(kkt.nnz == nnz);
   TEST(csc_Nonzeros(&kkt.A) == nnz);
+  kkt_FreeKKTSystem(&kkt);
 }
 
 int main() {

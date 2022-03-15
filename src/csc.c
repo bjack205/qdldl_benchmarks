@@ -204,11 +204,13 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
   if (status != 0) {
     fprintf(stderr, "ERROR: Failed to read the colptr data.");
     free(colptr);
+    cJSON_Delete(json);
     return kkt;
   }
   if (colptr[n] != nnz) {
     fprintf(stderr, "ERROR: bad terminal colptr data.");
     free(colptr);
+    cJSON_Delete(json);
     return kkt;
   }
 
@@ -228,6 +230,7 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
     free(colptr);
     free(rowval);
     free(nzval);
+    cJSON_Delete(json);
     return kkt;
   }
 
@@ -239,6 +242,7 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
     free(rowval);
     free(nzval);
     free(b);
+    cJSON_Delete(json);
     return kkt;
   }
 
@@ -251,8 +255,10 @@ KKTSystem kkt_ReadFromFile(const char *filename) {
     free(nzval);
     free(b);
     free(x);
+    cJSON_Delete(json);
     return kkt;
   }
+  cJSON_Delete(json);
 
   SparseMatrixCSC A = {
     .n = n,
