@@ -29,9 +29,23 @@ void ComputeEtree() {
   kkt_FreeKKTSystem(&kkt);
 }
 
+void AppendWorkspace() {
+  KKTSystem kkt = GetTestSystem();
+  QDLDLWorkspace ws = solvers_InitializeQDLDLWorkspace(&kkt);
+
+  int nnzL = QDLDL_etree(ws.n, ws.Ap, ws.Ai, ws.work, ws.Lnz, ws.etree);
+  TEST(nnzL > 0);
+
+  solvers_AppendQDLDLWorkspace(&ws);
+
+  solvers_FreeQDLDLWorkspace(&ws);
+  kkt_FreeKKTSystem(&kkt);
+}
+
 int main() {
   CreateWorkspace();
   ComputeEtree();
+  AppendWorkspace();
   PrintTestResult();
   return TestResult(); 
 }

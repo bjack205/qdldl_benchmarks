@@ -24,3 +24,13 @@ typedef struct {
 QDLDLWorkspace solvers_InitializeQDLDLWorkspace(const KKTSystem* kkt);
 
 void solvers_FreeQDLDLWorkspace(QDLDLWorkspace* ws);
+
+/**
+ * @brief Initializes the rest of the workspace needed by QDLDL after the 
+ *        number of nonzeros in L is known.
+ * 
+ * Must be called after the elimination tree is computed.
+ * 
+ * @param ws 
+ */
+void solvers_AppendQDLDLWorkspace(QDLDLWorkspace* ws);
