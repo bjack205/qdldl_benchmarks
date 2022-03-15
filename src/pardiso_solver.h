@@ -12,27 +12,39 @@ void pardiso_printstats (int* mtype, int* n, double* a, int* ia, int* ja, int* n
 
 
 enum MTYPE {
-   RSYM = 1,     // real symmetric
-   RPSD = 2,     // real positive definite
-   RINDEF = -2,  // real symmetric indefinite
-   CSYM = 3,     // complex structurally symmetric
-   CPSD = 4,     // complex Hermitian positive definite
-   CINDEF = -4,  // complex Hermitian indefinite
-   CSYM2 = 6,    // complex symmetric
-   RGEN = 11,    // real nonsymmetric
-   CGEN = 13,    // complex nonsymmetric
+   PARDISO_RSYM = 1,     // real symmetric
+   PARDISO_RPSD = 2,     // real positive definite
+   PARDISO_RINDEF = -2,  // real symmetric indefinite
+   PARDISO_CSYM = 3,     // complex structurally symmetric
+   PARDISO_CPSD = 4,     // complex Hermitian positive definite
+   PARDISO_CINDEF = -4,  // complex Hermitian indefinite
+   PARDISO_CSYM2 = 6,    // complex symmetric
+   PARDISO_RGEN = 11,    // real nonsymmetric
+   PARDISO_CGEN = 13,    // complex nonsymmetric
 };
 
 enum PARDISO_SOLVER {
-   SPARSE_DIRECT_SOLVER = 0,
-   RECURSIVE_ITERATIVE_SOLVER = 1,
+   PARDISO_SPARSE_DIRECT_SOLVER = 0,
+   PARDISO_RECURSIVE_ITERATIVE_SOLVER = 1,
 };
 
-enum PARDISO_ERROR {
+enum PARDISO_INIT_ERROR {
    PARDISO_NO_ERROR = 0,
    PARDISO_NO_LICENSE = -10,
    PARDISO_LICENSE_EXPIRED = -11,
    PARDISO_WRONG_USERNAME = -12, 
+};
+
+enum PARDISO_PHASE {
+   PARDISO_ANALYSIS = 11,
+   PARDISO_ANALYSIS_FACTOR = 12,
+   PARDISO_ANALYSIS_FACTOR_SOLVE_REFINE = 13,
+   PARDISO_FACTOR = 22,
+   PARDISO_INVERSION = -22,
+   PARDISO_FACTOR_SOLVE_REFINE = 23,
+   PARDISO_SOLVE_REFINE = 33,
+   PARDISO_RELEASE_LU = 0,
+   PARDISO_RELEASE_ALL = -1,
 };
 
 typedef struct {
