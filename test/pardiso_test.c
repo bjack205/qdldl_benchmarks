@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "csc.h"
 #include "simpletest/simpletest.h"
 #include "csc.h"
@@ -11,8 +13,10 @@ void PardisoInit() {
   int mtype = RINDEF;
   int solver = SPARSE_DIRECT_SOLVER;
   int error;
+
   pardisoinit(ws.pt, &mtype, &solver, ws.iparm, ws.dparm, &error);
   TEST(error == PARDISO_NO_ERROR);
+  solvers_FreePardisoWorkspace(&ws);
 
   kkt_FreeKKTSystem(&kkt);
 }
@@ -27,13 +31,14 @@ void PardisoChecks() {
   pardisoinit(ws.pt, &mtype, &solver, ws.iparm, ws.dparm, &error);
   TEST(error == PARDISO_NO_ERROR);
 
-  // SparseMatrixCSC* A = &kkt.A;
-  // pardiso_chkmatrix(&mtype, &A->n, A->nzval, A->colptr, A->rowval, &error);
+  int n = kkt.A.n;
+  pardiso_chkmatrix(&mtype, &n, ws.a, ws.ia, ws.ja, &error);
 
   kkt_FreeKKTSystem(&kkt);
 }
 
 int main() {
+  PardisoInit();
   PrintTestResult();
   return TestResult();
 }

@@ -1,20 +1,58 @@
 #include "pardiso_solver.h"
+#include "csc.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
-PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt) {
+PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt) {   
   (void) kkt;
 
-  void* pt[64];
-  int iparm[64];
-  double dparm[64];
+  SparseMatrixCSC* A = &kkt->A;
+  const int n = A->n;
+  const int nnz = csc_Nonzeros(A);
+
+  double* a = (double*) malloc(nnz * sizeof(double));
+  int* ia = (int*) malloc((n + 1) * sizeof(int));
+  int* ja = (int*) malloc(nnz * sizeof(int));
+  for (int i = 0; i < n + 1; ++i) {
+    ia[i] = A->colptr[i] + 1;  // Convert to 1-based indexing
+  }
+  for (int i = 0; i < nnz; ++i) {
+    ja[i] = A->rowval[i] + 1;  // Convert to 1-based indexing
+    a[i] = A->nzval[i];
+  }
+
+  int* perm = (int*) malloc(n * sizeof(int));
+  for (int i = 0; i < n; ++i) {
+    perm[i] = i + 1;
+  }
+
+  const int nrhs = 1;
+  double* b = (double*) malloc(nrhs * n * sizeof(double));
+  double* x = (double*) malloc(nrhs * n * sizeof(double));
+  for (int i = 0; i < n; ++i) {
+    b[i] = kkt->b[i];
+    x[i] = 0.0;
+  }
+
   PardisoWorkspace ws = {
-    .pt = pt,
-    .iparm = iparm,
-    .dparm = dparm,
+    .a = a,
+    .ia = ia,
+    .ja = ja,
+    .perm = perm,
+    .b = b,
+    .x = x,
   };
   return ws;
+}
+
+void solvers_FreePardisoWorkspace(PardisoWorkspace* ws) {
+  free(ws->a);
+  free(ws->ia);
+  free(ws->ja);
+  free(ws->perm);
+  free(ws->b);
+  free(ws->x);
 }
 
 int solvers_GetOmpThreads() {

@@ -36,12 +36,20 @@ enum PARDISO_ERROR {
 };
 
 typedef struct {
-   void* pt;        // (64,)
-   int* iparm;      // (64,)
-   double* dparm;   // (64,)
+   void* pt[64];
+   int iparm[64];
+   double dparm[64];
+   double* a;          // (nnz,)
+   int* ia;            // (n+1,)
+   int* ja;            // (nnz,)
+   int* perm;          // (n,)
+   double* b;          // (n, nrhs)
+   double* x;          // (n, nrhs)
 } PardisoWorkspace;
 
 PardisoWorkspace solvers_InitializePardisoWorkspace(KKTSystem* kkt);
+
+void solvers_FreePardisoWorkspace(PardisoWorkspace* ws);
 
 /**
  * @brief Get the value of OMP_NUM_THREADS
