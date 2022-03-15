@@ -42,4 +42,30 @@ jobs:
     - name: Test
       working-directory: ${{ github.workspace }}/build
       run: ctest -C ${{ env.BUILD_TYPE }} .
+
+  memcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: | 
+        sudo apt-get update
+        sudo apt-get install clang -y
+        sudo apt-get install valgrind -y
+
+    - name: Configure CMake
+      run: |
+        mkdir ${{github.workspace}}/build && cd build
+        cmake -D CMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+              -D CMAKE_C_COMPILER=clang \
+              --log-context ..
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{ env.BUILD_TYPE }}
+
+    - name: Memory Check Test 
+      working-directory: ${{ github.workspace }}/build
+      run: ctest -C ${{ env.BUILD_TYPE }} --overwrite MemoryCheckCommandOptions="--leak-check=full --error-exitcode=100" -T memcheck
       
