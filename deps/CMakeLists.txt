@@ -27,3 +27,31 @@ FetchContent_Declare(qdldl_lib
 FetchContent_MakeAvailable(qdldl_lib)
 add_library(QDLDL::QDLDL ALIAS qdldlstatic)
 list(POP_BACK CMAKE_MESSAGE_CONTEXT)
+
+# Find Pardiso macro
+SET(FIND_LIBPARDISO LIBPARDISO-NOTFOUND)
+find_library(FIND_LIBPARDISO ${PARDISO_LIB} 
+    HINTS ${PARDISO_DIR} 
+    PATH_SUFFIXES "pardiso-6.0"
+)
+if (FIND_LIBPARDISO)
+  message(STATUS "Found Pardiso")
+
+  # Find Deps 
+  find_package(LAPACK REQUIRED)
+  find_package(BLAS REQUIRED)
+  find_package(OpenMP REQUIRED)
+
+
+  # Add a Library
+  add_library(PARDISO::PARDISO SHARED IMPORTED GLOBAL)
+  set_target_properties(PARDISO::PARDISO PROPERTIES
+      IMPORTED_LOCATION ${FIND_LIBPARDISO}
+  )
+  target_link_libraries(PARDISO::PARDISO
+    INTERFACE
+    LAPACK::LAPACK
+    BLAS::BLAS
+    OpenMP::OpenMP_C
+  )
+endif()

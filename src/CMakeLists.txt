@@ -24,3 +24,11 @@ target_include_directories(solvers
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
 )
+
+add_executable(pardiso_example
+    pardiso_sym.c
+)
+target_link_libraries(pardiso_example
+    PRIVATE
+    PARDISO::PARDISO
+)
