@@ -67,5 +67,5 @@ jobs:
 
     - name: Memory Check Test 
       working-directory: ${{ github.workspace }}/build
-      run: ctest -C ${{ env.BUILD_TYPE }} --overwrite MemoryCheckCommandOptions="--leak-check=full --error-exitcode=100" -T memcheck
+      run: ctest -C ${{ env.BUILD_TYPE }} --overwrite MemoryCheckCommandOptions="--leak-check=full --error-exitcode=100" -L MemCheck -T memcheck
       

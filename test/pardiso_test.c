@@ -88,13 +88,18 @@ void PardisoSolve() {
   double err = SumOfSquaredError(ws.x, kkt.x, n);
   TEST(err < 1e-10);
 
+  // Free all memory (still has a memory leak)
+  phase = PARDISO_RELEASE_ALL;
+  pardiso(ws.pt, &maxfct, &mnum, &mtype, &phase, &n, ws.a, ws.ia, ws.ja,
+          ws.perm, &nrhs, ws.iparm, &msglvl, ws.b, ws.x, &error, ws.dparm);
+
   solvers_FreePardisoWorkspace(&ws);
   kkt_FreeKKTSystem(&kkt);
 }
 
 int main() {
-  // PardisoInit();
-  // PardisoChecks();
+  PardisoInit();
+  PardisoChecks();
   PardisoSolve();
   PrintTestResult();
   return TestResult();
