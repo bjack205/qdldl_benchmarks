@@ -28,7 +28,7 @@ FetchContent_MakeAvailable(qdldl_lib)
 add_library(QDLDL::QDLDL ALIAS qdldlstatic)
 list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 
-# Find Pardiso macro
+# Find Pardiso
 SET(FIND_LIBPARDISO LIBPARDISO-NOTFOUND)
 find_library(FIND_LIBPARDISO ${PARDISO_LIB} 
     HINTS ${PARDISO_DIR} 

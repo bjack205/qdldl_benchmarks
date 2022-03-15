@@ -38,3 +38,4 @@ target_include_directories(simpletest
 # Add tests
 add_project_test(csc)
 add_project_test(qdldl)
+add_project_test(pardiso)

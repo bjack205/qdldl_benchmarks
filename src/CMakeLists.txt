@@ -14,11 +14,15 @@ target_include_directories(csc
 add_library(solvers
     qdldl_solver.h
     qdldl_solver.c
+
+    pardiso_solver.h
+    pardiso_solver.c
 )
 target_link_libraries(solvers
     PUBLIC
     QDLDL::QDLDL
     csc
+    PARDISO::PARDISO
 )
 target_include_directories(solvers
     PUBLIC
