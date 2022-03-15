@@ -17,6 +17,9 @@ add_library(solvers
 
     pardiso_solver.h
     pardiso_solver.c
+
+    utils.h
+    utils.c
 )
 target_link_libraries(solvers
     PUBLIC
@@ -27,6 +30,14 @@ target_link_libraries(solvers
 target_include_directories(solvers
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
+)
+
+add_executable(solve_qdldl
+    solve_qdldl.c
+)
+target_link_libraries(solve_qdldl
+    PRIVATE
+    solvers
 )
 
 add_executable(pardiso_example

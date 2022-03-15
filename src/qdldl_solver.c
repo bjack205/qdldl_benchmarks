@@ -1,9 +1,11 @@
 #include "qdldl_solver.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "csc.h"
 #include "qdldl_types.h"
+#include "utils.h"
 
 QDLDLWorkspace solvers_InitializeQDLDLWorkspace(const KKTSystem* kkt) {
   const SparseMatrixCSC* A = &kkt->A;
@@ -82,4 +84,32 @@ void solvers_AppendQDLDLWorkspace(QDLDLWorkspace* ws) {
 
   // Create boolean data
   ws->bwork = (QDLDL_bool*) malloc(n * sizeof(QDLDL_bool));
+}
+
+void solvers_SolveQDLDL(const KKTSystem* kkt) {
+  QDLDLWorkspace ws = solvers_InitializeQDLDLWorkspace(kkt);
+
+  // Compute the elimination tree
+  QDLDL_etree(ws.n, ws.Ap, ws.Ai, ws.work, ws.Lnz, ws.etree);
+
+  // Allocate the rest of the data now that we knot nnzL
+  solvers_AppendQDLDLWorkspace(&ws);
+
+  // Compute the factorization
+  QDLDL_factor(ws.n, ws.Ap, ws.Ai, ws.Ax, ws.Lp, ws.Li, ws.Lx, ws.D,
+                ws.Dinv, ws.Lnz, ws.etree, ws.bwork, ws.iwork, ws.fwork);
+
+  // Solve Ax = b
+  const int n = kkt->A.n;
+  QDLDL_float* x = (QDLDL_float*) malloc(n * sizeof(QDLDL_float));
+  for (int i = 0; i < n; ++i) {
+    x[i] = kkt->b[i];
+  }
+  QDLDL_solve(n, ws.Lp, ws.Li, ws.Lx, ws.Dinv, x);
+
+  double err = SumOfSquaredError(x, kkt->x, n);
+  printf("err = %g\n", err);
+
+  free(x);
+  solvers_FreeQDLDLWorkspace(&ws);
 }
