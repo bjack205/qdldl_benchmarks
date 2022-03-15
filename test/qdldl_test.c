@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "csc.h"
+#include "kkt.h"
 #include "qdldl.h"
 #include "qdldl_solver.h"
 #include "qdldl_types.h"

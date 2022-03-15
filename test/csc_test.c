@@ -2,6 +2,7 @@
 
 #include "test_utils.h"
 #include "csc.h"
+#include "kkt.h"
 #include "simpletest/simpletest.h"
 
 void CheckTestSystem() { 

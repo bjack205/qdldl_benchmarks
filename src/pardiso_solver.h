@@ -1,4 +1,5 @@
 #include "csc.h"
+#include "kkt.h"
 
 // Forward-declare PARDISO functions
 void pardisoinit(void* pt, int* mtype, int* solver, int* iparm, double* dparm, int* error);

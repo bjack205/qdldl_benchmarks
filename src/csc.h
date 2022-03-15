@@ -31,15 +31,3 @@ void csc_FreeSparseMatrixCSC(SparseMatrixCSC* A);
  * @param a  (nnz,) vector of nonzero values
  */
 void csc_ConvertToCSR(const SparseMatrixCSC* A, int* ia, int* ja, double* a);
-
-typedef struct {
-    csc_int nprimals;
-    csc_int nduals;
-    SparseMatrixCSC A;
-    double* b;
-    double* x;
-} KKTSystem;
-
-KKTSystem kkt_ReadFromFile(const char* filename);
-
-void kkt_FreeKKTSystem(KKTSystem* kkt);

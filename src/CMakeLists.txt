@@ -1,17 +1,10 @@
-add_library(csc
+add_library(solvers
     csc.h
     csc.c
-)
-target_link_libraries(csc
-    PRIVATE
-    CJSON::CJSON
-)
-target_include_directories(csc
-    PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}
-)
 
-add_library(solvers
+    kkt.h
+    kkt.c
+
     qdldl_solver.h
     qdldl_solver.c
 
@@ -24,14 +17,17 @@ add_library(solvers
 target_link_libraries(solvers
     PUBLIC
     QDLDL::QDLDL
-    csc
     PARDISO::PARDISO
+
+    PRIVATE
+    CJSON::CJSON
 )
 target_include_directories(solvers
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
 )
 
+# Executables for each solver
 add_executable(solve_qdldl
     solve_qdldl.c
 )
@@ -48,6 +44,7 @@ target_link_libraries(solve_pardiso
     solvers
 )
 
+# Sample from PARDISO website
 add_executable(pardiso_example
     pardiso_sym.c
 )

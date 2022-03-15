@@ -2,6 +2,7 @@
 
 #include "qdldl.h"
 #include "csc.h"
+#include "kkt.h"
 
 typedef struct {
     QDLDL_int n;
