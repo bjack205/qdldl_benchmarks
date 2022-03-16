@@ -38,7 +38,15 @@ target_include_directories(simpletest
 # Add tests
 add_project_test(csc)
 add_project_test(qdldl)
-add_project_test(pardiso)
 
 set_tests_properties(csc_test PROPERTIES LABELS "MemCheck")
 set_tests_properties(qdldl_test PROPERTIES LABELS "MemCheck")
+
+if (PARDISO_FOUND)
+  add_project_test(pardiso)
+  target_link_libraries(pardiso_test
+    PRIVATE
+    PARDISO::PARDISO
+    pardiso_solver
+  )
+endif()

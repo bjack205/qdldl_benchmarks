@@ -13,6 +13,7 @@ SET(PARDISO_LIB "pardiso600-GNU800-X86-64" CACHE STRING "Name of pardiso library
 ##############################
 # Dependencies 
 ##############################
+SET(PARDISO_FOUND "")
 add_subdirectory(deps)
 
 ##############################

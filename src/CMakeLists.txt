@@ -8,16 +8,12 @@ add_library(solvers
     qdldl_solver.h
     qdldl_solver.c
 
-    pardiso_solver.h
-    pardiso_solver.c
-
     utils.h
     utils.c
 )
 target_link_libraries(solvers
     PUBLIC
     QDLDL::QDLDL
-    PARDISO::PARDISO
 
     PRIVATE
     CJSON::CJSON
@@ -27,7 +23,7 @@ target_include_directories(solvers
     ${CMAKE_CURRENT_LIST_DIR}
 )
 
-# Executables for each solver
+# QDLDL Executable 
 add_executable(solve_qdldl
     solve_qdldl.c
 )
@@ -36,19 +32,34 @@ target_link_libraries(solve_qdldl
     solvers
 )
 
-add_executable(solve_pardiso
-    solve_pardiso.c
-)
-target_link_libraries(solve_pardiso
-    PRIVATE
-    solvers
-)
+if (PARDISO_FOUND)
+    message(STATUS "Building Pardiso targets")
 
-# Sample from PARDISO website
-add_executable(pardiso_example
-    pardiso_sym.c
-)
-target_link_libraries(pardiso_example
-    PRIVATE
-    PARDISO::PARDISO
-)
+    add_library(pardiso_solver
+        pardiso_solver.h
+        pardiso_solver.c
+    )
+    target_link_libraries(pardiso_solver
+        PUBLIC
+        PARDISO::PARDISO
+    )
+
+    # PARDISO Executable
+    add_executable(solve_pardiso
+        solve_pardiso.c
+    )
+    target_link_libraries(solve_pardiso
+        PRIVATE
+        solvers
+        pardiso_solver
+    )
+
+    # Sample from PARDISO website
+    add_executable(pardiso_example
+        pardiso_sym.c
+    )
+    target_link_libraries(pardiso_example
+        PRIVATE
+        PARDISO::PARDISO
+    )
+endif()

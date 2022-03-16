@@ -35,13 +35,13 @@ find_library(FIND_LIBPARDISO ${PARDISO_LIB}
     PATH_SUFFIXES "pardiso-6.0"
 )
 if (FIND_LIBPARDISO)
-  message(STATUS "Found Pardiso")
+  SET(PARDISO_FOUND TRUE PARENT_SCOPE)
+  message(STATUS "Found Pardiso at ${FIND_LIBPARDISO}")
 
   # Find Deps 
   find_package(LAPACK REQUIRED)
   find_package(BLAS REQUIRED)
   find_package(OpenMP REQUIRED)
-
 
   # Add a Library
   add_library(PARDISO::PARDISO SHARED IMPORTED GLOBAL)
