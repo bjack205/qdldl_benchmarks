@@ -9,7 +9,7 @@
 
 int main(int argc, char* argv[]) {
   // Parse filename argument
-  const char* filename;
+  char* filename = "";
   if (argc != 2) {
     printf("Usage Error: Expecting a single argument holding the json file name.\n");
   } else {
